@@ -9,6 +9,7 @@ import sys
 import time
 import timeit
 import numpy as np
+import pickle
 import torch
 from collections import Counter
 import spacy
@@ -18,6 +19,7 @@ import sys
 config = configparser.ConfigParser()
 config.read("paths.cfg")
 
+
 cpnet = None
 cpnet_simple = None
 concept2id = None
@@ -25,8 +27,8 @@ relation2id = None
 id2relation = None
 id2concept = None
 
-nlp = spacy.load('en_core_web_sm', disable=['ner', 'parser', 'textcat'])
 
+nlp = spacy.load('en_core_web_sm', disable=['ner', 'parser', 'textcat'])
 
 def load_resources():
     global concept2id, relation2id, id2relation, id2concept, concept_embs, relation_embs
@@ -51,7 +53,10 @@ def load_resources():
 def load_cpnet():
     global cpnet,concept2id, relation2id, id2relation, id2concept, cpnet_simple
     print("loading cpnet....")
-    cpnet = nx.read_gpickle(config["paths"]["conceptnet_en_graph"])
+
+    # cpnet = nx.read_gpickle(config["paths"]["conceptnet_en_graph"])
+    with open(config["paths"]["conceptnet_en_graph"], 'rb') as f:
+        G = pickle.load(f)
     print("Done")
 
     cpnet_simple = nx.Graph()
@@ -62,7 +67,6 @@ def load_cpnet():
         else:
             cpnet_simple.add_edge(u, v, weight=w)
 
-
 def get_edge(src_concept, tgt_concept):
     global cpnet, concept2id, relation2id, id2relation, id2concept
     try:
@@ -72,8 +76,11 @@ def get_edge(src_concept, tgt_concept):
         return []
     
 
+
+
 def cosine_score_triple(h, t, r):
     global concept_embs, relation_embs
+    #return np.linalg.norm(t-h-r)
     if r < 17:
         return (1 + 1 - spatial.distance.cosine(relation_embs[r], concept_embs[t] - concept_embs[h]) ) /2
     else:
@@ -109,6 +116,7 @@ def find_neighbours_frequency(source_sentence, source_concepts, target_concepts,
                             if len(rels) > 0:
                                 Ets[n].update({s: rels})  
                         
+        
         V = list(V.items())
         count_V = sorted(V, key=lambda x: x[1], reverse=True)[:max_B]
         start = [x[0] for x in count_V if x[0] in total_concepts_id_set]
@@ -124,6 +132,7 @@ def find_neighbours_frequency(source_sentence, source_concepts, target_concepts,
         distances.append(d)
     assert(len(concepts) == len(distances))
     
+    
     triples = []
     for v, N in Ets.items():
         if v in concepts:
@@ -131,6 +140,7 @@ def find_neighbours_frequency(source_sentence, source_concepts, target_concepts,
                 if u in concepts:
                     triples.append((u, rels, v))
     
+
     ts = [concept2id[t_cpt] for t_cpt in target_concepts]
 
     labels = []
@@ -147,7 +157,6 @@ def find_neighbours_frequency(source_sentence, source_concepts, target_concepts,
 
     return {"concepts":res, "labels":labels, "distances":distances, "triples":triples}, found_num, len(res)
 
-
 def process(input_path, output_path, T, max_B):
     data = []
     with open(input_path, 'r') as f:
@@ -163,6 +172,7 @@ def process(input_path, output_path, T, max_B):
         avg_len += avg_nodes
         examples.append(e)
         
+    
     print('{} hops avg nodes: {}'.format(T, avg_len / len(examples)))
     
     with open(output_path, 'w') as f:
@@ -171,12 +181,14 @@ def process(input_path, output_path, T, max_B):
             f.write('\n')
 
 
+
+
 def load_total_concepts(data_path):    
     global concept2id, total_concepts_id, config
     total_concepts = []
     total_concepts_id = []
     exs = []
-    for path in [data_path + "/train.concepts_nv.json", data_path + "/val.concepts_nv.json"]:
+    for path in [data_path + "/train/concepts_nv.json", data_path + "/dev/concepts_nv.json"]:
         with open(path, 'r') as f:
             for line in f.readlines():
                 line = json.loads(line)
@@ -184,6 +196,7 @@ def load_total_concepts(data_path):
 
         total_concepts = list(set(total_concepts))
 
+    
     filtered_total_conncepts = []
     for x in total_concepts:
         if concept2id.get(x, False):
@@ -195,15 +208,16 @@ def load_total_concepts(data_path):
             f.write(str(line) + '\n')
     
 
-if __name__ == "__main__":
-    dataset = sys.argv[1]
+dataset = sys.argv[1]
 
-    T, max_B = 2, 100
-    DATA_PATH = config["paths"][dataset + "_dir"]
+T = 2
+max_B = 100
+DATA_PATH = config["paths"][dataset + "_dir"]
 
-    load_resources()
-    load_cpnet()
-    load_total_concepts(DATA_PATH)
+load_resources()
+load_cpnet()
+load_total_concepts(DATA_PATH)
 
-    for TYPE in ['train', 'val', 'test']:
-        process(DATA_PATH + "/{}.concepts_nv.json".format(TYPE), DATA_PATH + "/{}.{}hops_{}_triple.json".format(TYPE, T, max_B), T, max_B)
+process(DATA_PATH + "/train/concepts_nv.json", DATA_PATH + "/train/{}hops_{}_triple.json".format(T, max_B), T, max_B)
+process(DATA_PATH + "/dev/concepts_nv.json", DATA_PATH + "/dev/{}hops_{}_triple.json".format(T, max_B), T, max_B)
+process(DATA_PATH + "/test/concepts_nv.json", DATA_PATH + "/test/{}hops_{}_triple.json".format(T, max_B), T, max_B)
