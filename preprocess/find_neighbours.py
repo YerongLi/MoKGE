@@ -56,7 +56,7 @@ def load_cpnet():
 
     # cpnet = nx.read_gpickle(config["paths"]["conceptnet_en_graph"])
     with open(config["paths"]["conceptnet_en_graph"], 'rb') as f:
-        G = pickle.load(f)
+        cpnet = pickle.load(f)
     print("Done")
 
     cpnet_simple = nx.Graph()
