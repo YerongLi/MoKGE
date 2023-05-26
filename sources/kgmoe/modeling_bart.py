@@ -9,10 +9,11 @@ from torch import nn
 from torch.nn import CrossEntropyLoss
 
 from transformers.activations import ACT2FN
+# from transformers.configuration_bart import BartConfig
 from transformers.models.bart.configuration_bart import BartConfig
 from transformers.file_utils import (
     add_code_sample_docstrings,
-    add_start_docstrings_to_callable,
+    # add_start_docstrings_to_callable,
 )
 from transformers.modeling_outputs import (
     BaseModelOutput,
@@ -73,7 +74,7 @@ class BartMoEModel(PretrainedBartModel):
 
         self.init_weights()
 
-    @add_start_docstrings_to_callable(BART_INPUTS_DOCSTRING)
+    # @add_start_docstrings_to_callable(BART_INPUTS_DOCSTRING)
     @add_code_sample_docstrings(
         tokenizer_class=_TOKENIZER_FOR_DOC,
         checkpoint="facebook/bart-large",
