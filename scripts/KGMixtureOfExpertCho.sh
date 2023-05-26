@@ -60,7 +60,6 @@ option="
     --metric_for_best_model distinct_2
     --predict_with_generate 
     --overwrite_output_dir 
-    --evaluate_during_training
 "
 
 cmd="python3 main.py ${option}"
