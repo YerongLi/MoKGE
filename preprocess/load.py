@@ -21,4 +21,5 @@ T = 2
 max_B = 100
 
 
-read_json(DATA_PATH + '/test/{}hops_{}_directed_triple_filter.json'.format(T, max_B))
+triple=read_json(DATA_PATH + '/test/{}hops_{}_directed_triple_filter.json'.format(T, max_B))
+print(triple)
