@@ -23,7 +23,7 @@ from transformers.modeling_outputs import (
 from transformers.modeling_utils import PreTrainedModel
 from transformers.utils import logging
 
-from transformers.modeling_bart import (
+from transformers.models.bart.modeling_bart import (
     BART_INPUTS_DOCSTRING,
     shift_tokens_right,
     _prepare_bart_decoder_inputs,
