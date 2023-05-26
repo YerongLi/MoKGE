@@ -9,7 +9,7 @@ from torch import nn
 from torch.nn import CrossEntropyLoss
 
 from transformers.activations import ACT2FN
-from transformers.configuration_bart import BartConfig
+from transformers.models.bart.configuration_bart import BartConfig
 from transformers.file_utils import (
     add_code_sample_docstrings,
     add_start_docstrings_to_callable,
