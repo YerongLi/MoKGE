@@ -12,9 +12,9 @@ A set of knowledge experts seek diverse reasoning on KG to encourage various gen
 
 ```
 transformers==3.3.1
-torch==1.7.0
+torch
 nltk==3.4.5
-networkx==2.1
+networkx
 spacy==2.2.1
 torch-scatter==2.0.5+${CUDA}
 psutil==5.9.0

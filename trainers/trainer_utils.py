@@ -16,7 +16,8 @@ from filelock import FileLock
 
 from transformers import BartTokenizer, EvalPrediction, PreTrainedTokenizer, T5Tokenizer
 from transformers.file_utils import cached_property
-from transformers.modeling_bart import shift_tokens_right
+# from transformers.modeling_bart import shift_tokens_right
+from transformers.bart.modeling_bart import shift_tokens_right
 
 try:
     import nltk
