@@ -2,9 +2,14 @@
 #### Run experiment
 ########################
 
-DATASET=${eg}
-INPUT_DIR=${}
-OUTPUT_DIR=${}
+# DATASET=${}
+# INPUT_DIR=${}
+# OUTPUT_DIR=${}
+
+DATASET="eg"
+INPUT_DIR="/scratch/yerong/MoKGE/data"
+OUTPUT_DIR="/scratch/yerong/MoKGE/out"
+
 
 option="
     --data_dir ${INPUT_DIR}/${DATASET}
