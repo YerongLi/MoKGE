@@ -2,7 +2,7 @@
 #### Run experiment
 ########################
 
-DATASET=${}
+DATASET=${eg}
 INPUT_DIR=${}
 OUTPUT_DIR=${}
 
