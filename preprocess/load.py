@@ -22,4 +22,6 @@ max_B = 100
 
 
 triple=read_json(DATA_PATH + '/test/{}hops_{}_directed_triple_filter.json'.format(T, max_B))
-print(type(triple))
+for i in range(3):
+	print(triple[i])
+	print()
