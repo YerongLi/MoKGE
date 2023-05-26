@@ -22,4 +22,4 @@ max_B = 100
 
 
 triple=read_json(DATA_PATH + '/test/{}hops_{}_directed_triple_filter.json'.format(T, max_B))
-print(triple.keys)
+print(dir(triple))
