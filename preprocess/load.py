@@ -15,4 +15,10 @@ def read_json(filename):
             data.append(json.loads(line))
     return data
 
+dataset = 'eg'
+DATA_PATH = config["paths"][dataset + "_dir"]
+T = 2 
+max_B = 100
+
+
 read_json(DATA_PATH + '/test/{}hops_{}_directed_triple_filter.json')
