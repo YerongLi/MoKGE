@@ -4,6 +4,6 @@ torch==1.13.1
 nltk==3.4.5
 networkx==2.6.3
 spacy==2.2.1
-psutil
-accelerate
-torch_scatter
+psutil==5.9.5
+accelerate==0.19.0
+torch_scatter==2.1.1
