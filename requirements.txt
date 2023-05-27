@@ -1,7 +1,8 @@
+#python3.7
 transformers==3.3.1
-torch
+torch==1.13.1
 nltk==3.4.5
-networkx
+networkx==2.6.3
 spacy==2.2.1
 psutil
 accelerate
