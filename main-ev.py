@@ -6,6 +6,16 @@ from dataclasses import dataclass, field
 import os
 from typing import Optional
 
+logger = logging.getLogger(__name__)
+
+logging.basicConfig(
+    format='%(asctime)s %(levelname)-8s %(message)s',
+    level=logging.DEBUG,
+    filename='./output.log',
+    datefmt='%Y-%m-%d %H:%M:%S')
+
+logging.info(f'Logger start: {os.uname()[1]}')
+
 from transformers import (
     HfArgumentParser,
     TrainingArguments,
@@ -25,15 +35,7 @@ from trainers.trainer_utils import (
 from transformers.trainer_utils import EvaluationStrategy
 from evals.eval_acc_div import eval_accuracy_diversity
 
-logger = logging.getLogger(__name__)
 
-logging.basicConfig(
-    format='%(asctime)s %(levelname)-8s %(message)s',
-    level=logging.DEBUG,
-    filename='./output.log',
-    datefmt='%Y-%m-%d %H:%M:%S')
-
-logging.info(f'Logger start: {os.uname()[1]}')
 @dataclass
 class Seq2SeqTrainingArguments(TrainingArguments):
 
@@ -133,8 +135,8 @@ def main():
             f"model type ({model_args.model_type}) has not been implemented or the name model type is incorrect."
         )
     from transformers import BartTokenizer
-    print('model_args.model_type')
-    print(model_args.model_type)
+    logging.info('model_args.model_type')
+    logging.info(model_args.model_type)
     # n_sample for evluating the models during training
     training_args.eval_beams = data_args.eval_beams
     training_args.data_dir = data_args.data_dir
@@ -148,11 +150,7 @@ def main():
             f"Output directory ({training_args.output_dir}) already exists and is not empty. Use --overwrite_output_dir to overcome."
         )
 
-    logging.basicConfig(
-        format="%(asctime)s - %(levelname)s - %(name)s -   %(message)s",
-        datefmt="%m/%d/%Y %H:%M:%S",
-        level=logging.INFO if training_args.local_rank in [-1, 0] else logging.WARN,
-    )
+
 
     logger.warning(
         "Process rank: %s, device: %s, n_gpu: %s, distributed training: %s, 16-bits training: %s",
