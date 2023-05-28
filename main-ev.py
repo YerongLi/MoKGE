@@ -3,6 +3,7 @@ import os, sys
 import json
 import torch
 from dataclasses import dataclass, field
+import os
 from typing import Optional
 
 from transformers import (
@@ -26,7 +27,13 @@ from evals.eval_acc_div import eval_accuracy_diversity
 
 logger = logging.getLogger(__name__)
 
+logging.basicConfig(
+    format='%(asctime)s %(levelname)-8s %(message)s',
+    level=logging.DEBUG,
+    filename='./output.log',
+    datefmt='%Y-%m-%d %H:%M:%S')
 
+logging.info(f'Logger start: {os.uname()[1]}')
 @dataclass
 class Seq2SeqTrainingArguments(TrainingArguments):
 
