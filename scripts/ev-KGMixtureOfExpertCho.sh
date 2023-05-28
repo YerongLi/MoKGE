@@ -8,7 +8,7 @@
 
 DATASET="eg"
 INPUT_DIR="/scratch/yerong/MoKGE/data"
-OUTPUT_DIR="/scratch/yerong/MoKGE/out"
+OUTPUT_DIR="/scratch/yerong/MoKGE/outeval"
 
 
 # option="
