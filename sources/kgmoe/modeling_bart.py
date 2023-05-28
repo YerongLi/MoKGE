@@ -371,7 +371,9 @@ class BartKGMoEForConditionalGeneration(PretrainedBartModel):
             use_cache = False
             if decoder_input_ids is None:
                 decoder_input_ids = shift_tokens_right(lm_labels, self.config.pad_token_id)
-
+        logging.info('input_ids concept_ids')
+        logging.info(self.tokenizer.decode_plus(input_ids[0], skip_special_tokens=True))
+        logging.info(self.tokenizer.decode_plus(concept_ids[0], skip_special_tokens=True))
         lm_outputs, kg_outputs = self.model(
             input_ids,
             lm_mixture_ids=lm_mixture_ids,
