@@ -69,6 +69,9 @@ logger = logging.getLogger(__name__)
 
 class Seq2SeqTrainer(Trainer):
     def __init__(self, config, data_args, *args, **kwargs):
+        logging.info("config")
+
+        logging.info(config)
         super().__init__(*args, **kwargs)
         self.config = config
         self.data_args = data_args
