@@ -59,7 +59,7 @@ class KGMoESeq2SeqTrainer(Seq2SeqTrainer):
         self.loss_ratio = self.data_args.loss_ratio
 
     def _training_step(self, model: nn.Module, inputs: Dict[str, Union[torch.Tensor, Any]], optimizer) -> torch.Tensor:
-        # logging.info("inputs")
+        logging.info("inputs")
         # logging.info(inputs.keys())
         # 2023-05-28 02:55:32 INFO     dict_keys(['input_ids', 'attention_mask', 'decoder_input_ids', 'labels', 'concept_ids', 'concept_distances', 'concept_labels', 'oracle_concept_ids', 'head_ids', 'tail_ids', 'relation_ids', 'triple_labels'])
         
