@@ -66,8 +66,16 @@ class KGMoESeq2SeqTrainer(Seq2SeqTrainer):
         # logging.info(self.tokenizer)
         # <transformers.tokenization_bart.BartTokenizer object at 0x2acbab8e8490>
         logging.info(self.tokenizer.decode(inputs['input_ids'][0], skip_special_tokens=True))
-
         logging.info(self.tokenizer.decode(inputs['labels'][0],skip_special_tokens=True))
+        logging.info(self.tokenizer.decode(inputs['concept_labels'][0],skip_special_tokens=True))
+        # 2023-05-28 03:34:22 INFO - kgmoe_trainer.py - inputs
+        # 2023-05-28 03:34:22 INFO - kgmoe_trainer.py -  All cats chirp. bird container box apartment mouth mouse sun ranch backyard device car live computer floor land dust apply house sofa nature rug bird container box apartment mouth mouse sun ranch backyard device car live computer floor land dust apply house sofa nature rug
+        # 2023-05-28 03:34:22 INFO - kgmoe_trainer.py -  only birds chirp.
+        # 2023-05-28 03:34:23 INFO - kgmoe_trainer.py - inputs
+        # 2023-05-28 03:34:23 INFO - kgmoe_trainer.py -  He took a nap on the tomato. opaque pile plate paper sponge cherry hill lie mineral water wood card fridge steak meat health book peach kitchen dish opaque pile plate paper sponge cherry hill lie mineral water wood card fridge steak meat health book peach kitchen dish
+        # 2023-05-28 03:34:23 INFO - kgmoe_trainer.py -  tomato is very small, no one can be fit to take nap on it.
+        # 2023-05-28 03:34:24 INFO - kgmoe_trainer.py - inputs
+        # 2023-05-28 03:34:24 INFO - kgmoe_trainer.py -  Music is a tasting activity,. camp flat paint hop heal metal toy product literature harmony pitch ballet music lead pleasure language talk learning wave point camp flat paint hop heal metal toy product literature harmony pitch ballet music lead pleasure language talk learning wave point
         self.B, self.L = inputs['labels'].shape
         self.BC, self.LC = inputs['concept_labels'].shape
         assert self.B == self.BC
