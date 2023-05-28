@@ -62,7 +62,7 @@ option="
     --overwrite_output_dir 
 "
 
-cmd="python3 main.py ${option}"
+cmd="python3 main-ev.py ${option}"
 
 echo $cmd
 eval $cmd
