@@ -311,7 +311,7 @@ class BartKGMoEForConditionalGeneration(PretrainedBartModel):
         super().__init__(config)
         base_model = BartMoEModel(config)
         self.tokenizer = BartTokenizer.from_pretrained('facebook/bart-base')
-        
+
         self.model = base_model
         self.register_buffer("final_logits_bias", torch.zeros((1, self.model.shared.num_embeddings)))
 
@@ -376,8 +376,8 @@ class BartKGMoEForConditionalGeneration(PretrainedBartModel):
             if decoder_input_ids is None:
                 decoder_input_ids = shift_tokens_right(lm_labels, self.config.pad_token_id)
         logger.info('input_ids concept_ids')
-        logger.info(self.tokenizer.decode_plus(input_ids[0], skip_special_tokens=True))
-        logger.info(self.tokenizer.decode_plus(concept_ids[0], skip_special_tokens=True))
+        logger.info(self.tokenizer.decode(input_ids[0], skip_special_tokens=True))
+        logger.info(self.tokenizer.decode(concept_ids[0], skip_special_tokens=True))
         lm_outputs, kg_outputs = self.model(
             input_ids,
             lm_mixture_ids=lm_mixture_ids,
