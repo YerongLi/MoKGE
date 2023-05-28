@@ -152,7 +152,8 @@ class Seq2SeqTrainer(Trainer):
         return padded_tensor
 
     def train(self, model_path: Optional[str] = None, trial: Union["optuna.Trial", Dict[str, Any]] = None):
-
+        print('model_path')
+        print(model_path)
         # This might change the seed so needs to run first.
         self._hp_search_setup(trial)
 

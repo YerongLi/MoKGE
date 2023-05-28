@@ -252,8 +252,8 @@ def main():
     )
 
     # Training (eval during each epoch)
-    # if training_args.do_train:
-        # trainer.train(model_path=model_args.model_name_or_path if os.path.isdir(model_args.model_name_or_path) else None)
+    if training_args.do_train:
+        trainer.train(model_path=model_args.model_name_or_path if os.path.isdir(model_args.model_name_or_path) else None)
 
     # Evaluation (on test set)
     if training_args.do_eval:
