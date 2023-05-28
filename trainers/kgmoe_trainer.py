@@ -69,7 +69,7 @@ class KGMoESeq2SeqTrainer(Seq2SeqTrainer):
         logging.info(self.tokenizer.decode(inputs['labels'][0],skip_special_tokens=True))
         try:
             logging.info(self.tokenizer.decode(inputs['concept_labels'][0],skip_special_tokens=True))
-        except
+        except:
             logging.info(inputs['concept_labels'][0])
         # 2023-05-28 03:34:22 INFO - kgmoe_trainer.py - inputs
         # 2023-05-28 03:34:22 INFO - kgmoe_trainer.py -  All cats chirp. bird container box apartment mouth mouse sun ranch backyard device car live computer floor land dust apply house sofa nature rug bird container box apartment mouth mouse sun ranch backyard device car live computer floor land dust apply house sofa nature rug
