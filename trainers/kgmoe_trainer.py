@@ -59,7 +59,8 @@ class KGMoESeq2SeqTrainer(Seq2SeqTrainer):
         self.loss_ratio = self.data_args.loss_ratio
 
     def _training_step(self, model: nn.Module, inputs: Dict[str, Union[torch.Tensor, Any]], optimizer) -> torch.Tensor:
-
+        logging.info(self.tokenizer)
+        logging.info("self.tokenizer")
         self.B, self.L = inputs['labels'].shape
         self.BC, self.LC = inputs['concept_labels'].shape
         assert self.B == self.BC
@@ -104,7 +105,6 @@ class KGMoESeq2SeqTrainer(Seq2SeqTrainer):
             inputs['attention_mask'] = torch.cat([attention_prompt, inputs['attention_mask']], dim=1)
             
         # do the expert training!
-        logging.info('Start Training')
         model.train()
         lm_loss, kg_loss = self.compute_loss(model, inputs)
         loss = lm_loss + self.loss_ratio * kg_loss
