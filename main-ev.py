@@ -9,7 +9,7 @@ from typing import Optional
 logger = logging.getLogger(__name__)
 
 logging.basicConfig(
-    format='%(asctime)s %(levelname)-8s %(message)s',
+    format='%(asctime)s %(levelname)-4s - %(filename)s-4s - %(message)s',
     level=logging.DEBUG,
     filename='./output.log',
     datefmt='%Y-%m-%d %H:%M:%S')
@@ -139,7 +139,7 @@ def main():
     # logging.info(model_args.model_type)
     # 2023-05-28 00:54:22 INFO     model_args.model_type
     # 2023-05-28 00:54:22 INFO     kgmoe
-    
+
     # n_sample for evluating the models during training
     training_args.eval_beams = data_args.eval_beams
     training_args.data_dir = data_args.data_dir

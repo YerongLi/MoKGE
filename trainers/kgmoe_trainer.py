@@ -65,9 +65,9 @@ class KGMoESeq2SeqTrainer(Seq2SeqTrainer):
         
         # logging.info(self.tokenizer)
         # <transformers.tokenization_bart.BartTokenizer object at 0x2acbab8e8490>
-        logging.info(self.tokenizer.decode(inputs['input_ids'][0]))
+        logging.info(self.tokenizer.decode(inputs['input_ids'][0], skip_special_tokens=True))
 
-        logging.info(self.tokenizer.decode(inputs['labels'][0]))
+        logging.info(self.tokenizer.decode(inputs['labels'][0],skip_special_tokens=True))
         self.B, self.L = inputs['labels'].shape
         self.BC, self.LC = inputs['concept_labels'].shape
         assert self.B == self.BC
