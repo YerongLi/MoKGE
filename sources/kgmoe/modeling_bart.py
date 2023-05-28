@@ -63,7 +63,6 @@ class BartMoEModel(PretrainedBartModel):
         padding_idx, vocab_size = config.pad_token_id, config.vocab_size
         self.shared = nn.Embedding(vocab_size, config.d_model, padding_idx)
         # DEBUG
-        self.tokenizer = BartTokenizer.from_pretrained('facebook/bart-base')
 
         self.encoder = BartEncoder(config, self.shared)
         self.decoder = BartDecoder(config, self.shared)
@@ -311,6 +310,8 @@ class BartKGMoEForConditionalGeneration(PretrainedBartModel):
     def __init__(self, config: BartConfig):
         super().__init__(config)
         base_model = BartMoEModel(config)
+        self.tokenizer = BartTokenizer.from_pretrained('facebook/bart-base')
+        
         self.model = base_model
         self.register_buffer("final_logits_bias", torch.zeros((1, self.model.shared.num_embeddings)))
 
