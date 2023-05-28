@@ -104,6 +104,7 @@ class KGMoESeq2SeqTrainer(Seq2SeqTrainer):
             inputs['attention_mask'] = torch.cat([attention_prompt, inputs['attention_mask']], dim=1)
             
         # do the expert training!
+        logging.info('Start Training')
         model.train()
         lm_loss, kg_loss = self.compute_loss(model, inputs)
         loss = lm_loss + self.loss_ratio * kg_loss

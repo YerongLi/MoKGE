@@ -135,8 +135,11 @@ def main():
             f"model type ({model_args.model_type}) has not been implemented or the name model type is incorrect."
         )
     from transformers import BartTokenizer
-    logging.info('model_args.model_type')
-    logging.info(model_args.model_type)
+    # logging.info('model_args.model_type')
+    # logging.info(model_args.model_type)
+    # 2023-05-28 00:54:22 INFO     model_args.model_type
+    # 2023-05-28 00:54:22 INFO     kgmoe
+    
     # n_sample for evluating the models during training
     training_args.eval_beams = data_args.eval_beams
     training_args.data_dir = data_args.data_dir
