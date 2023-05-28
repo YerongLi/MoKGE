@@ -63,7 +63,8 @@ class KGMoESeq2SeqTrainer(Seq2SeqTrainer):
         # logging.info(inputs.keys())
         # 2023-05-28 02:55:32 INFO     dict_keys(['input_ids', 'attention_mask', 'decoder_input_ids', 'labels', 'concept_ids', 'concept_distances', 'concept_labels', 'oracle_concept_ids', 'head_ids', 'tail_ids', 'relation_ids', 'triple_labels'])
         
-        logging.info(self.tokenizer)
+        # logging.info(self.tokenizer)
+        # <transformers.tokenization_bart.BartTokenizer object at 0x2acbab8e8490>
         logging.info(self.tokenizer.decode(inputs['input_ids'][0]))
 
         logging.info(self.tokenizer.decode(inputs['labels'][0]))
