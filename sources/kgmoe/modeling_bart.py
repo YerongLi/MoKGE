@@ -23,13 +23,14 @@ from transformers.modeling_outputs import (
 )
 from transformers.modeling_utils import PreTrainedModel
 from transformers.utils import logging
-
+from transformers.tokenization_bart import BartTokenizer
 from transformers.modeling_bart import (
     BART_INPUTS_DOCSTRING,
     shift_tokens_right,
     _prepare_bart_decoder_inputs,
     _make_linear_from_emb,
     _reorder_buffer,
+
 )
 
 from transformers.modeling_bart import (
