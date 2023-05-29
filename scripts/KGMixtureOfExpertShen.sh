@@ -13,8 +13,8 @@ option="
     --output_dir ${OUTPUT_DIR}/KGMixtureOfExpertShen_Output
     --max_source_length 40
     --max_target_length 60 
-    --val_max_target_length 60
-    --test_max_target_length 60
+    --val_max_target_length 80
+    --test_max_target_length 80
     --num_train_epochs 30
     --learning_rate 3e-5 
     --fp16 
