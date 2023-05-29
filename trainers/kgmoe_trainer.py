@@ -1,5 +1,6 @@
 import warnings
 import logging
+import numpy as np
 from typing import Any, Dict, Optional, Tuple, Union
 from tqdm.auto import tqdm
 
