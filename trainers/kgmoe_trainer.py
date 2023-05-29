@@ -366,6 +366,9 @@ class KGMoESeq2SeqTrainer(Seq2SeqTrainer):
         logging.info("predictions.shape")
         logging.info(predictions.shape)
         predictions = np.argmax(predictions, axis=1)
+        logging.info("type")
+        logging.info(type(predictions))
+        logging.info(type(label_ids))
         correct = (predictions == label_ids).sum()
         accuracy = correct / len(label_ids)
 
