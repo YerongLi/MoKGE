@@ -329,7 +329,7 @@ class KGMoESeq2SeqTrainer(Seq2SeqTrainer):
             label_ids = nested_numpify(label_ids)
 
         assert preds.shape[0] == label_ids.shape[0]
-            
+        self.compute_metrics = 1
         if self.compute_metrics is not None and preds is not None and label_ids is not None:
             metrics = self.compute_metrics(EvalPrediction(predictions=preds, label_ids=label_ids))
         else:
