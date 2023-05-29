@@ -350,12 +350,12 @@ class KGMoESeq2SeqTrainer(Seq2SeqTrainer):
         assert preds.shape[0] == label_ids.shape[0]
         logging.info("self.compute_metrics is not None")
         logging.info(self.compute_metrics is not None)
-        metrics = self.compute_metrics(EvalPrediction(predictions=preds, label_ids=label_ids))
+        metrics = compute_metrics(EvalPrediction(predictions=preds, label_ids=label_ids))
 
-        if self.compute_metrics is not None and preds is not None and label_ids is not None:
-            metrics = self.compute_metrics(EvalPrediction(predictions=preds, label_ids=label_ids))
-        else:
-            metrics = {}
+        # if self.compute_metrics is not None and preds is not None and label_ids is not None:
+        #     metrics = self.compute_metrics(EvalPrediction(predictions=preds, label_ids=label_ids))
+        # else:
+        #     metrics = {}
 
         # Prefix all keys with eval_
         for key in list(metrics.keys()):
