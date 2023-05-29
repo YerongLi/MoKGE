@@ -318,6 +318,7 @@ class Seq2SeqTrainer(Trainer):
                     break
             epoch_pbar.close()
             train_pbar.update(1)
+            logging.info('End of eposh')
             self._save_training(model, trial)
             
             # if epoch < int(np.ceil(num_train_epochs)) and self.args.evaluate_during_training:
