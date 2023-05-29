@@ -278,7 +278,6 @@ class Seq2SeqTrainer(Trainer):
                 self._past = None
 
             epoch_pbar = tqdm(epoch_iterator, desc="Iteration", disable=disable_tqdm)
-            self._save_training(model, trial)
             
             for step, inputs in enumerate(epoch_iterator):
 
@@ -319,6 +318,7 @@ class Seq2SeqTrainer(Trainer):
                     break
             epoch_pbar.close()
             train_pbar.update(1)
+            self._save_training(model, trial)
             
             if epoch < int(np.ceil(num_train_epochs)) and self.args.evaluate_during_training:
 

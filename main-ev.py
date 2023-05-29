@@ -201,11 +201,11 @@ def main():
     if os.path.exists(model_directory):
         # Load the model from the existing directory
         model = BartModel.from_pretrained(model_directory)
-        logging.info(f'Loaded from local :{model_directory}')
+        logging.info(f'Loaded from local :{model_directory}') #Tested
     else:
         model = BartModel.from_pretrained(
             model_args.model_name_or_path,
-            from_tf=".ckpt" in model_args.model_name_or_path,
+            from_tf=".ckpt" in model_args.model_name_or_path, # Tested
             config=config,
             cache_dir=model_args.cache_dir,
         )
