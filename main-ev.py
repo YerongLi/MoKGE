@@ -205,7 +205,7 @@ def main():
     pattern = re.compile(rf"{base_model_name}_(\d+)\.ckpt")
 
     # Specify the directory where the model files are located
-    model_directory = f"{model_args.output_dir}/checkpoint_best_dev"
+    model_directory = f"{training_args.output_dir}/checkpoint_best_dev"
 
     # Get a list of all model files in the directory
     model_files = os.listdir(model_directory)
