@@ -220,23 +220,23 @@ class KGMoESeq2SeqTrainer(Seq2SeqTrainer):
         
         return node_loss
 
-    def compute_metrics(self, eval_prediction):
-        # Extract the predictions and labels from the EvalPrediction object
-        logging.info('Entering compute_metrics')
-        predictions = eval_prediction.predictions
-        label_ids = eval_prediction.label_ids
+    # def compute_metrics(self, eval_prediction):
+    #     # Extract the predictions and labels from the EvalPrediction object
+    #     logging.info('Entering compute_metrics')
+    #     predictions = eval_prediction.predictions
+    #     label_ids = eval_prediction.label_ids
 
-        # Perform your desired computations on the predictions and labels
-        # Here's an example of computing accuracy
-        predictions = torch.argmax(predictions, dim=1)
-        correct = (predictions == label_ids).sum().item()
-        accuracy = correct / len(label_ids)
+    #     # Perform your desired computations on the predictions and labels
+    #     # Here's an example of computing accuracy
+    #     predictions = torch.argmax(predictions, dim=1)
+    #     correct = (predictions == label_ids).sum().item()
+    #     accuracy = correct / len(label_ids)
 
-        # Return a dictionary containing the computed metrics
-        metrics = {
-            'accuracy': accuracy
-        }
-        return metrics
+    #     # Return a dictionary containing the computed metrics
+    #     metrics = {
+    #         'accuracy': accuracy
+    #     }
+    #     return metrics
 
     def prediction_step(
         self, model: nn.Module, inputs: Dict[str, Union[torch.Tensor, Any]], prediction_loss_only: bool
@@ -354,6 +354,7 @@ class KGMoESeq2SeqTrainer(Seq2SeqTrainer):
 
         # Extract the predictions and labels from the EvalPrediction object
         logging.info('Entering compute_metrics')
+        eval_prediction=EvalPrediction(predictions=preds, label_ids=label_ids)
         predictions = eval_prediction.predictions
         label_ids = eval_prediction.label_ids
 
