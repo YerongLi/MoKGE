@@ -267,6 +267,7 @@ class Seq2SeqTrainer(Trainer):
         disable_tqdm = self.args.disable_tqdm or not self.is_local_process_zero()
         train_pbar = trange(epochs_trained, int(np.ceil(num_train_epochs)), desc="Epoch", disable=disable_tqdm)
         for epoch in range(epochs_trained, int(np.ceil(num_train_epochs))):
+            self._save_training(model, trial, metrics=metrics)
 
             if isinstance(train_dataloader, DataLoader) and isinstance(train_dataloader.sampler, DistributedSampler):
                 train_dataloader.sampler.set_epoch(epoch)
@@ -372,6 +373,7 @@ class Seq2SeqTrainer(Trainer):
         return TrainOutput(self.global_step, tr_loss.item() / self.global_step)
 
     def _save_training(self, model, trial, metrics=None):
+        logging.info('Save Training')
         # In all cases (even distributed/parallel), self.model is always a reference
         # to the model we want to save.
         if hasattr(model, "module"):
@@ -386,6 +388,7 @@ class Seq2SeqTrainer(Trainer):
         output_dir = os.path.join(self.args.output_dir, checkpoint_folder)
 
         self.store_flos()
+        logging.info(f'Saving the model : {output_dir}')
         self.save_model(output_dir)
 
         if self.is_world_process_zero():

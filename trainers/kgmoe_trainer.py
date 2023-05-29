@@ -142,6 +142,8 @@ class KGMoESeq2SeqTrainer(Seq2SeqTrainer):
             
         # do the expert training!
         model.train()
+        # logging.info('model')
+        # logging.info(model)
         lm_loss, kg_loss = self.compute_loss(model, inputs)
         loss = lm_loss + self.loss_ratio * kg_loss
 
