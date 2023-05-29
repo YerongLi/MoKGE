@@ -2,9 +2,9 @@
 #### Run experiment
 ########################
 
-DATASET=${}
-INPUT_DIR=${}
-OUTPUT_DIR=${}
+DATASET="anlg"
+INPUT_DIR="/scratch/yerong/MoKGE/data"
+OUTPUT_DIR="/scratch/yerong/MoKGE/outeval"
 
 option="
     --data_dir ${INPUT_DIR}/${DATASET}

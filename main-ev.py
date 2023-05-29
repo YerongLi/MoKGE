@@ -1,24 +1,10 @@
 import logging
-import os
-logger = logging.getLogger(__name__)
-
-logging.basicConfig(
-    format='%(asctime)s %(levelname)-4s - %(filename)-6s - %(message)s',
-    # format='%(asctime)s %(levelname)-4s - %(message)s',
-    level=logging.INFO,
-    filename='./output.log',
-    datefmt='%Y-%m-%d %H:%M:%S')
-
-logging.info(f'Logger start: {os.uname()[1]}')
-
+import os, sys
 import json
 import torch
-import os
-import re
-import sys
 from dataclasses import dataclass, field
-from evals.eval_acc_div import eval_accuracy_diversity
 from typing import Optional
+
 from transformers import (
     HfArgumentParser,
     TrainingArguments,
@@ -36,6 +22,9 @@ from trainers.trainer_utils import (
 )
 
 from transformers.trainer_utils import EvaluationStrategy
+from evals.eval_acc_div import eval_accuracy_diversity
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -107,7 +96,6 @@ class DataTrainingArguments:
     
 def main():
 
-    # callback = CustomCallback()
     parser = HfArgumentParser((ModelArguments, DataTrainingArguments, Seq2SeqTrainingArguments))
 
     if len(sys.argv) == 2 and sys.argv[1].endswith(".json"):
@@ -138,10 +126,6 @@ def main():
             f"model type ({model_args.model_type}) has not been implemented or the name model type is incorrect."
         )
     from transformers import BartTokenizer
-    # logging.info('model_args.model_type')
-    # logging.info(model_args.model_type)
-    # 2023-05-28 00:54:22 INFO     model_args.model_type
-    # 2023-05-28 00:54:22 INFO     kgmoe
 
     # n_sample for evluating the models during training
     training_args.eval_beams = data_args.eval_beams
@@ -156,7 +140,11 @@ def main():
             f"Output directory ({training_args.output_dir}) already exists and is not empty. Use --overwrite_output_dir to overcome."
         )
 
-
+    logging.basicConfig(
+        format="%(asctime)s - %(levelname)s - %(name)s -   %(message)s",
+        datefmt="%m/%d/%Y %H:%M:%S",
+        level=logging.INFO if training_args.local_rank in [-1, 0] else logging.WARN,
+    )
 
     logger.warning(
         "Process rank: %s, device: %s, n_gpu: %s, distributed training: %s, 16-bits training: %s",
@@ -189,27 +177,13 @@ def main():
             low=1, high=len(tokenizer), size=(data_args.mixtures, data_args.prompt_nums))
         config.mixtures = data_args.mixtures
         config.mixture_embedding = data_args.mixture_embedding
-    # Define the base model name
-    base_model_name = "model_epoch"
 
-    # Define the pattern to match the model files
-    pattern = re.compile(rf"{base_model_name}_(\d+)\.ckpt")
-
-    # Specify the directory where the model files are located
-    model_directory = f"{training_args.output_dir}/checkpoint_best_dev"
-
-    if os.path.exists(model_directory):
-        # Load the model from the existing directory
-        model = BartModel.from_pretrained(model_directory)
-        logging.info(f'Loaded from local :{model_directory}') #Tested
-    else:
-        model = BartModel.from_pretrained(
-            model_args.model_name_or_path,
-            from_tf=".ckpt" in model_args.model_name_or_path, # Tested
-            config=config,
-            cache_dir=model_args.cache_dir,
-        )
-        logging.info(f'Loaded from : {model_args.model_name_or_path}')
+    model = BartModel.from_pretrained(
+        model_args.model_name_or_path,
+        from_tf=".ckpt" in model_args.model_name_or_path,
+        config=config,
+        cache_dir=model_args.cache_dir,
+    )
 
     use_task_specific_params(model, data_args.task)
 
@@ -283,8 +257,7 @@ def main():
 
     # Evaluation (on test set)
     if training_args.do_eval:
-        trainer.evaluate()
-        return
+
         output = trainer.predict(test_dataset=test_dataset)
         predictions = output.predictions.tolist()
 
