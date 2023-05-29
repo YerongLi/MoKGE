@@ -267,7 +267,7 @@ class Seq2SeqTrainer(Trainer):
         disable_tqdm = self.args.disable_tqdm or not self.is_local_process_zero()
         train_pbar = trange(epochs_trained, int(np.ceil(num_train_epochs)), desc="Epoch", disable=disable_tqdm)
         for epoch in range(epochs_trained, int(np.ceil(num_train_epochs))):
-            self._save_training(model, trial, metrics=metrics)
+            self._save_training(model, trial)
 
             if isinstance(train_dataloader, DataLoader) and isinstance(train_dataloader.sampler, DistributedSampler):
                 train_dataloader.sampler.set_epoch(epoch)
