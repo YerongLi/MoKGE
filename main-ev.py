@@ -1,4 +1,5 @@
 import logging
+import os
 logger = logging.getLogger(__name__)
 
 logging.basicConfig(
@@ -10,17 +11,14 @@ logging.basicConfig(
 
 logging.info(f'Logger start: {os.uname()[1]}')
 
-import os, sys
 import json
 import torch
 import os
 import re
 from dataclasses import dataclass, field
+from evals.eval_acc_div import eval_accuracy_diversity
 from typing import Optional
 from transformers import TrainerCallback
-
-
-
 from transformers import (
     HfArgumentParser,
     TrainingArguments,
@@ -38,7 +36,6 @@ from trainers.trainer_utils import (
 )
 
 from transformers.trainer_utils import EvaluationStrategy
-from evals.eval_acc_div import eval_accuracy_diversity
 
 
 @dataclass
