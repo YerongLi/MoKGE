@@ -350,8 +350,9 @@ class KGMoESeq2SeqTrainer(Seq2SeqTrainer):
             label_ids = nested_numpify(label_ids)
 
         assert preds.shape[0] == label_ids.shape[0]
-        # prediss and label_ids are numpy arrays
-
+        # ppredictions and label_ids are numpy arrays
+        logging.info("Before processing")
+        logging.info(f"Shape {predictions.shape} {label_ids.shape}")
         logging.info("self.compute_metrics is not None")
         logging.info(self.compute_metrics is not None)
 
