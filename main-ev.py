@@ -206,7 +206,7 @@ def main():
 
     # Specify the directory where the model files are located
     # model_directory = "./models/"
-    # model_directory = "."
+    model_directory = "."
 
     # Get a list of all model files in the directory
     model_files = os.listdir(model_directory)
