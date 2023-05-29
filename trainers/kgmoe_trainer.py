@@ -57,7 +57,7 @@ class KGMoESeq2SeqTrainer(Seq2SeqTrainer):
         self.mixture_embedding = self.data_args.mixture_embedding
         self.pows = self.data_args.pows
         self.loss_ratio = self.data_args.loss_ratio
-        self.compute_metrics=compute_metrics
+        # self.compute_metrics=compute_metrics
 
     def _training_step(self, model: nn.Module, inputs: Dict[str, Union[torch.Tensor, Any]], optimizer) -> torch.Tensor:
         # logging.info("inputs")
