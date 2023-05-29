@@ -1,11 +1,4 @@
 import logging
-import os, sys
-import json
-import torch
-from dataclasses import dataclass, field
-import os
-from typing import Optional
-
 logger = logging.getLogger(__name__)
 
 logging.basicConfig(
@@ -16,6 +9,17 @@ logging.basicConfig(
     datefmt='%Y-%m-%d %H:%M:%S')
 
 logging.info(f'Logger start: {os.uname()[1]}')
+
+import os, sys
+import json
+import torch
+import os
+import re
+from dataclasses import dataclass, field
+from typing import Optional
+from transformers import TrainerCallback
+
+
 
 from transformers import (
     HfArgumentParser,
@@ -104,8 +108,17 @@ class DataTrainingArguments:
     pows: Optional[float] = field(default=6.5, metadata={"help": "specify a token as expert token"})
     loss_ratio: Optional[float] = field(default=0.3, metadata={"help": "specify a token as expert token"})
     
+class CustomCallback(TrainerCallback):
+    # Save the model every time the model loads
+    def on_epoch_begin(self, args, state, control, **kwargs):
+        # Save the model
+        self.trainer.save_model(f"model_epoch_{state.epoch + 1}.ckpt")
+        
+        # Log a hint or any other information
+        self.trainer.log(f"Starting epoch {state.epoch + 1}...")
 def main():
 
+    callback = CustomCallback()
     parser = HfArgumentParser((ModelArguments, DataTrainingArguments, Seq2SeqTrainingArguments))
 
     if len(sys.argv) == 2 and sys.argv[1].endswith(".json"):
@@ -187,13 +200,43 @@ def main():
             low=1, high=len(tokenizer), size=(data_args.mixtures, data_args.prompt_nums))
         config.mixtures = data_args.mixtures
         config.mixture_embedding = data_args.mixture_embedding
+    # Define the base model name
+    base_model_name = "model_epoch"
 
-    model = BartModel.from_pretrained(
-        model_args.model_name_or_path,
-        from_tf=".ckpt" in model_args.model_name_or_path,
-        config=config,
-        cache_dir=model_args.cache_dir,
-    )
+    # Define the pattern to match the model files
+    pattern = re.compile(rf"{base_model_name}_(\d+)\.ckpt")
+
+    # Specify the directory where the model files are located
+    # model_directory = "./models/"
+    # model_directory = "."
+
+    # Get a list of all model files in the directory
+    model_files = os.listdir(model_directory)
+
+    # Initialize variables for the maximum epoch number and corresponding model file
+    max_epoch_number = 0
+    max_epoch_model_file = None
+
+    # Iterate over the model files and find the one with the largest epoch number
+    for model_file in model_files:
+        match = pattern.match(model_file)
+        if match:
+            epoch_number = int(match.group(1))
+            if epoch_number > max_epoch_number:
+                max_epoch_number = epoch_number
+                max_epoch_model_file = model_file
+    # Load the model with the largest epoch number, if available
+    if max_epoch_model_file:
+        model_path = os.path.join(model_directory, max_epoch_model_file)
+        model = BartModel.from_pretrained(model_path)
+        logging.info(f'Loaded from file : {model_path}')
+    else:
+        model = BartModel.from_pretrained(
+            model_args.model_name_or_path,
+            from_tf=".ckpt" in model_args.model_name_or_path,
+            config=config,
+            cache_dir=model_args.cache_dir,
+        )
 
     use_task_specific_params(model, data_args.task)
 
@@ -259,6 +302,8 @@ def main():
         eval_dataset=eval_dataset,
         data_collator=Seq2SeqDataCollator(tokenizer, data_args, training_args.tpu_num_cores),
         data_args=data_args,
+
+        callback=[callback]
     )
 
     # Training (eval during each epoch)

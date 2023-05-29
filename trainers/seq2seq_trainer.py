@@ -507,3 +507,5 @@ class Seq2SeqTrainer(Trainer):
                 for _ in range(K):
                     out.append(x.copy())
             return out
+    def on_epoch_start():
+        logging.info('Epoch start')
