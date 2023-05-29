@@ -210,6 +210,7 @@ def main():
     if os.path.exists(model_directory):
         # Load the model from the existing directory
         model = BartModel.from_pretrained(model_directory)
+        logging.info(f'Loaded from local :{model_directory}')
     else:
         model = BartModel.from_pretrained(
             model_args.model_name_or_path,
@@ -217,6 +218,7 @@ def main():
             config=config,
             cache_dir=model_args.cache_dir,
         )
+        logging.info(f'Loaded from : {model_args.model_name_or_path}')
 
     use_task_specific_params(model, data_args.task)
 
