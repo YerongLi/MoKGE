@@ -348,6 +348,8 @@ class KGMoESeq2SeqTrainer(Seq2SeqTrainer):
             label_ids = nested_numpify(label_ids)
 
         assert preds.shape[0] == label_ids.shape[0]
+        # prediss and label_ids are numpy arrays
+
         logging.info("self.compute_metrics is not None")
         logging.info(self.compute_metrics is not None)
 
@@ -360,8 +362,8 @@ class KGMoESeq2SeqTrainer(Seq2SeqTrainer):
 
         # Perform your desired computations on the predictions and labels
         # Here's an example of computing accuracy
-        predictions = torch.argmax(predictions, dim=1)
-        correct = (predictions == label_ids).sum().item()
+        predictions = np.argmax(predictions, dim=1)
+        correct = (predictions == label_ids).sum()
         accuracy = correct / len(label_ids)
 
         # Return a dictionary containing the computed metrics
