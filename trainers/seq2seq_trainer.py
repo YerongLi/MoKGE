@@ -418,7 +418,7 @@ class Seq2SeqTrainer(Trainer):
 
         eval_dataloader = self.get_eval_dataloader(eval_dataset)
         output = self.prediction_loop(eval_dataloader, description="Evaluation")
-        logging.info("metric")
+        logging.info("metrics")
         logging.info(f"Metrics:  {output.metrics}")
         return output
 
@@ -482,7 +482,7 @@ class Seq2SeqTrainer(Trainer):
             preds = nested_numpify(preds)
         if label_ids is not None:
             label_ids = nested_numpify(label_ids)
-
+        self.compute_metrics = 1
         if self.compute_metrics is not None and preds is not None and label_ids is not None:
             metrics = self.compute_metrics(EvalPrediction(predictions=preds, label_ids=label_ids))
         else:
