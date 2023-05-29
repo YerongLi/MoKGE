@@ -218,6 +218,23 @@ class KGMoESeq2SeqTrainer(Seq2SeqTrainer):
             return _node_loss
         
         return node_loss
+        
+    def compute_metrics(self, eval_prediction):
+        # Extract the predictions and labels from the EvalPrediction object
+        predictions = eval_prediction.predictions
+        label_ids = eval_prediction.label_ids
+
+        # Perform your desired computations on the predictions and labels
+        # Here's an example of computing accuracy
+        predictions = torch.argmax(predictions, dim=1)
+        correct = (predictions == label_ids).sum().item()
+        accuracy = correct / len(label_ids)
+
+        # Return a dictionary containing the computed metrics
+        metrics = {
+            'accuracy': accuracy
+        }
+        return metrics
 
     def prediction_step(
         self, model: nn.Module, inputs: Dict[str, Union[torch.Tensor, Any]], prediction_loss_only: bool
@@ -329,7 +346,6 @@ class KGMoESeq2SeqTrainer(Seq2SeqTrainer):
             label_ids = nested_numpify(label_ids)
 
         assert preds.shape[0] == label_ids.shape[0]
-        self.compute_metrics = 1
         if self.compute_metrics is not None and preds is not None and label_ids is not None:
             metrics = self.compute_metrics(EvalPrediction(predictions=preds, label_ids=label_ids))
         else:
