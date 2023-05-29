@@ -6,7 +6,7 @@
 # INPUT_DIR=${}
 # OUTPUT_DIR=${}
 
-# DATASET="eg"
+DATASET="eg"
 # DATASET="anlg"
 INPUT_DIR="/scratch/yerong/MoKGE/data"
 OUTPUT_DIR="/scratch/yerong/MoKGE/outeval"

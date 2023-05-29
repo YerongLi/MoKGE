@@ -356,34 +356,34 @@ class KGMoESeq2SeqTrainer(Seq2SeqTrainer):
         # 2023-05-29 17:58:34 INFO - kgmoe_trainer.py - Before processing
         # 2023-05-29 17:58:34 INFO - kgmoe_trainer.py - Shape (1428, 60) (1428, 60)
 
-        logging.info('max')
-        logging.info(max(label_ids))
+        # logging.info('max')
+        # logging.info(max(label_ids))
 
 
-        # Extract the predictions and labels from the EvalPrediction object
-        logging.info('Entering compute_metrics')
-        eval_prediction=EvalPrediction(predictions=preds, label_ids=label_ids)
+        # # Extract the predictions and labels from the EvalPrediction object
+        # logging.info('Entering compute_metrics')
+        # eval_prediction=EvalPrediction(predictions=preds, label_ids=label_ids)
 
-        # Get the predicted and true labels from the EvalPrediction object
-        preds = eval_prediction.predictions.argmax(axis=1)
-        labels = eval_prediction.label_ids
+        # # Get the predicted and true labels from the EvalPrediction object
+        # preds = eval_prediction.predictions.argmax(axis=1)
+        # labels = eval_prediction.label_ids
 
-        # Compute F1 score
-        f1 = f1_score(labels, preds, average='macro')
+        # # Compute F1 score
+        # f1 = f1_score(labels, preds, average='macro')
 
-        # Compute precision
-        precision = precision_score(labels, preds, average='macro')
-        metrics = {
-            'f1' :f1,
-            'precision': precision
-        }
-        logging.info('metrics')
-        logging.info(metrics)
+        # # Compute precision
+        # precision = precision_score(labels, preds, average='macro')
+        # metrics = {
+        #     'f1' :f1,
+        #     'precision': precision
+        # }
+        # logging.info('metrics')
+        # logging.info(metrics)
 
-        # if self.compute_metrics is not None and preds is not None and label_ids is not None:
-        #     metrics = self.compute_metrics(EvalPrediction(predictions=preds, label_ids=label_ids))
-        # else:
-        #     metrics = {}
+        if self.compute_metrics is not None and preds is not None and label_ids is not None:
+            metrics = self.compute_metrics(EvalPrediction(predictions=preds, label_ids=label_ids))
+        else:
+            metrics = {}
 
         # Prefix all keys with eval_
         for key in list(metrics.keys()):
