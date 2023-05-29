@@ -1,9 +1,10 @@
 import warnings
 import logging
 import numpy as np
+from sklearn.metrics import f1_score, precision_score
+
 from typing import Any, Dict, Optional, Tuple, Union
 from tqdm.auto import tqdm
-
 import torch
 import torch.nn.functional as F
 from packaging import version
@@ -358,23 +359,19 @@ class KGMoESeq2SeqTrainer(Seq2SeqTrainer):
         # Extract the predictions and labels from the EvalPrediction object
         logging.info('Entering compute_metrics')
         eval_prediction=EvalPrediction(predictions=preds, label_ids=label_ids)
-        predictions = eval_prediction.predictions
-        label_ids = eval_prediction.label_ids
 
-        # Perform your desired computations on the predictions and labels
-        # Here's an example of computing accuracy
-        predictions = np.argmax(predictions, axis=1)
-        logging.info("type")
-        logging.info(f"predictions.shape {predictions.shape} {label_ids.shape}")
-        
-        logging.info(type(predictions))
-        logging.info(type(label_ids))
-        correct = (predictions == label_ids).sum()
-        accuracy = correct / len(label_ids)
+        # Get the predicted and true labels from the EvalPrediction object
+        preds = eval_prediction.predictions.argmax(axis=1)
+        labels = eval_prediction.label_ids
 
-        # Return a dictionary containing the computed metrics
+        # Compute F1 score
+        f1 = f1_score(labels, preds, average='macro')
+
+        # Compute precision
+        precision = precision_score(labels, preds, average='macro')
         metrics = {
-            'accuracy': accuracy
+            'f1' :f1,
+            'precision': precision
         }
         logging.info('metrics')
         logging.info(metrics)
