@@ -205,8 +205,7 @@ def main():
     pattern = re.compile(rf"{base_model_name}_(\d+)\.ckpt")
 
     # Specify the directory where the model files are located
-    # model_directory = "./models/"
-    model_directory = "."
+    model_directory = f"{args.output_dir}/checkpoint_best_dev"
 
     # Get a list of all model files in the directory
     model_files = os.listdir(model_directory)
@@ -227,7 +226,7 @@ def main():
     if max_epoch_model_file:
         model_path = os.path.join(model_directory, max_epoch_model_file)
         model = BartModel.from_pretrained(model_path)
-        logging.info(f'Loaded from file : {model_path}')
+        logging.info(f'Loaded from local : {model_path}')
     else:
         model = BartModel.from_pretrained(
             model_args.model_name_or_path,
