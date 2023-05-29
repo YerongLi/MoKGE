@@ -363,10 +363,10 @@ class KGMoESeq2SeqTrainer(Seq2SeqTrainer):
 
         # Perform your desired computations on the predictions and labels
         # Here's an example of computing accuracy
-        logging.info("predictions.shape")
-        logging.info(predictions.shape)
         predictions = np.argmax(predictions, axis=1)
         logging.info("type")
+        logging.info(f"predictions.shape {predictions.shape} {label_ids.shape}")
+        
         logging.info(type(predictions))
         logging.info(type(label_ids))
         correct = (predictions == label_ids).sum()
