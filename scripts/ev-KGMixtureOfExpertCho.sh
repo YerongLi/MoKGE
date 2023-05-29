@@ -51,7 +51,6 @@ option="
     --learning_rate 3e-5 
     --mixture_embedding
     --fp16 
-    --do_train 
     --do_eval 
     --do_predict 
     --eval_beams 3 
