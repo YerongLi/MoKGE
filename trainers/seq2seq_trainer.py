@@ -417,6 +417,8 @@ class Seq2SeqTrainer(Trainer):
 
         eval_dataloader = self.get_eval_dataloader(eval_dataset)
         output = self.prediction_loop(eval_dataloader, description="Evaluation")
+        logging.info("metric")
+        logging.info(f"Metrics:  {output.metrics}")
         return output
 
     def prediction_loop(
