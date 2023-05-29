@@ -218,9 +218,10 @@ class KGMoESeq2SeqTrainer(Seq2SeqTrainer):
             return _node_loss
         
         return node_loss
-        
+
     def compute_metrics(self, eval_prediction):
         # Extract the predictions and labels from the EvalPrediction object
+        logging.info('Entering compute_metrics')
         predictions = eval_prediction.predictions
         label_ids = eval_prediction.label_ids
 
