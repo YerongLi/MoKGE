@@ -284,6 +284,7 @@ def main():
     # Evaluation (on test set)
     if training_args.do_eval:
         trainer.evaluate()
+        return
         output = trainer.predict(test_dataset=test_dataset)
         predictions = output.predictions.tolist()
 
