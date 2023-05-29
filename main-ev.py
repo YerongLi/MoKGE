@@ -207,26 +207,9 @@ def main():
     # Specify the directory where the model files are located
     model_directory = f"{training_args.output_dir}/checkpoint_best_dev"
 
-    # Get a list of all model files in the directory
-    model_files = os.listdir(model_directory)
-
-    # Initialize variables for the maximum epoch number and corresponding model file
-    max_epoch_number = 0
-    max_epoch_model_file = None
-
-    # Iterate over the model files and find the one with the largest epoch number
-    for model_file in model_files:
-        match = pattern.match(model_file)
-        if match:
-            epoch_number = int(match.group(1))
-            if epoch_number > max_epoch_number:
-                max_epoch_number = epoch_number
-                max_epoch_model_file = model_file
-    # Load the model with the largest epoch number, if available
-    if max_epoch_model_file:
-        model_path = os.path.join(model_directory, max_epoch_model_file)
-        model = BartModel.from_pretrained(model_path)
-        logging.info(f'Loaded from local : {model_path}')
+    if os.path.exists(model_directory):
+        # Load the model from the existing directory
+        model = BartModel.from_pretrained(model_directory)
     else:
         model = BartModel.from_pretrained(
             model_args.model_name_or_path,
