@@ -352,7 +352,7 @@ class KGMoESeq2SeqTrainer(Seq2SeqTrainer):
         assert preds.shape[0] == label_ids.shape[0]
         # ppredictions and label_ids are numpy arrays
         logging.info("Before processing")
-        logging.info(f"Shape {predictions.shape} {label_ids.shape}")
+        logging.info(f"Shape {preds.shape} {label_ids.shape}")
         logging.info("self.compute_metrics is not None")
         logging.info(self.compute_metrics is not None)
 
