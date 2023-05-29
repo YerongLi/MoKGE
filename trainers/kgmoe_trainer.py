@@ -350,6 +350,26 @@ class KGMoESeq2SeqTrainer(Seq2SeqTrainer):
         assert preds.shape[0] == label_ids.shape[0]
         logging.info("self.compute_metrics is not None")
         logging.info(self.compute_metrics is not None)
+
+
+        def compute_metrics(eval_prediction):
+            # Extract the predictions and labels from the EvalPrediction object
+            logging.info('Entering compute_metrics')
+            predictions = eval_prediction.predictions
+            label_ids = eval_prediction.label_ids
+
+            # Perform your desired computations on the predictions and labels
+            # Here's an example of computing accuracy
+            predictions = torch.argmax(predictions, dim=1)
+            correct = (predictions == label_ids).sum().item()
+            accuracy = correct / len(label_ids)
+
+            # Return a dictionary containing the computed metrics
+            metrics = {
+                'accuracy': accuracy
+            }
+            return metrics
+
         metrics = compute_metrics(EvalPrediction(predictions=preds, label_ids=label_ids))
 
         # if self.compute_metrics is not None and preds is not None and label_ids is not None:
