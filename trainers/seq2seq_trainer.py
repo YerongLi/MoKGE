@@ -278,6 +278,8 @@ class Seq2SeqTrainer(Trainer):
                 self._past = None
 
             epoch_pbar = tqdm(epoch_iterator, desc="Iteration", disable=disable_tqdm)
+            self._save_training(model, trial)
+            
             for step, inputs in enumerate(epoch_iterator):
 
                 # Skip past any already trained steps if resuming training
@@ -312,7 +314,6 @@ class Seq2SeqTrainer(Trainer):
                     model.zero_grad()
                     self.global_step += 1
                     self.epoch = epoch + (step + 1) / len(epoch_iterator)
-
                 epoch_pbar.update(1)
                 if self.args.max_steps > 0 and self.global_step >= self.args.max_steps:
                     break
@@ -342,7 +343,6 @@ class Seq2SeqTrainer(Trainer):
                 with open(out_pred_metric, 'w') as metric_out:
                     json.dump(metrics, metric_out, indent=1)
                 
-                if epoch < 2: self._save_training(model, trial)
 
                 # ''' save the model '''
                 if metrics[self.args.metric_for_best_model] > self.best_metric:

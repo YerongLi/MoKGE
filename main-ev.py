@@ -19,7 +19,6 @@ import sys
 from dataclasses import dataclass, field
 from evals.eval_acc_div import eval_accuracy_diversity
 from typing import Optional
-# from transformers import TrainerCallback
 from transformers import (
     HfArgumentParser,
     TrainingArguments,
@@ -106,14 +105,6 @@ class DataTrainingArguments:
     pows: Optional[float] = field(default=6.5, metadata={"help": "specify a token as expert token"})
     loss_ratio: Optional[float] = field(default=0.3, metadata={"help": "specify a token as expert token"})
     
-# class CustomCallback(TrainerCallback):
-#     # Save the model every time the model loads
-#     def on_epoch_begin(self, args, state, control, **kwargs):
-#         # Save the model
-#         self.trainer.save_model(f"model_epoch_{state.epoch + 1}.ckpt")
-        
-#         # Log a hint or any other information
-#         self.trainer.log(f"Starting epoch {state.epoch + 1}...")
 def main():
 
     # callback = CustomCallback()
