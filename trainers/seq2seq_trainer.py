@@ -320,8 +320,8 @@ class Seq2SeqTrainer(Trainer):
             train_pbar.update(1)
             self._save_training(model, trial)
             
-            if epoch < int(np.ceil(num_train_epochs)) and self.args.evaluate_during_training:
-
+            # if epoch < int(np.ceil(num_train_epochs)) and self.args.evaluate_during_training:
+            if True:
                 output = self.evaluate()
                 predictions = output.predictions.tolist()
 
