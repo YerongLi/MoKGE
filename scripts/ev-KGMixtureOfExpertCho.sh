@@ -47,7 +47,7 @@ option="
     --max_target_length 60 
     --val_max_target_length 60
     --test_max_target_length 60
-    --num_train_epochs 1
+    --num_train_epochs 30
     --learning_rate 3e-5 
     --mixture_embedding
     --fp16 
