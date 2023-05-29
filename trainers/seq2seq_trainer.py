@@ -483,6 +483,8 @@ class Seq2SeqTrainer(Trainer):
         if label_ids is not None:
             label_ids = nested_numpify(label_ids)
         self.compute_metrics = 1
+        logging.info("compute_metrics")
+        self.info(self.compute_metrics)
         if self.compute_metrics is not None and preds is not None and label_ids is not None:
             logging.info("compute_metrics")
             metrics = self.compute_metrics(EvalPrediction(predictions=preds, label_ids=label_ids))
