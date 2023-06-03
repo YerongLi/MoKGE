@@ -68,7 +68,7 @@ class KGMoESeq2SeqTrainer(Seq2SeqTrainer):
         
         # logging.info(self.tokenizer)
         # <transformers.tokenization_bart.BartTokenizer object at 0x2acbab8e8490>
-        logging.info(self.tokenizer.decode(inputs['input_ids'][0], skip_special_tokens=True))
+        # logging.info(self.tokenizer.decode(inputs['input_ids'][0], skip_special_tokens=True))
         # logging.info(self.tokenizer.decode(inputs['labels'][0],skip_special_tokens=True))
         # 2023-05-28 03:34:22 INFO - kgmoe_trainer.py - inputs
         # 2023-05-28 03:34:22 INFO - kgmoe_trainer.py -  All cats chirp. bird container box apartment mouth mouse sun ranch backyard device car live computer floor land dust apply house sofa nature rug bird container box apartment mouth mouse sun ranch backyard device car live computer floor land dust apply house sofa nature rug
@@ -244,13 +244,16 @@ class KGMoESeq2SeqTrainer(Seq2SeqTrainer):
         self, model: nn.Module, inputs: Dict[str, Union[torch.Tensor, Any]], prediction_loss_only: bool
     ) -> Tuple[Optional[float], Optional[torch.Tensor], Optional[torch.Tensor]]:
         inputs = self._prepare_inputs(inputs)
+        logging.info('input_ids and labels')
+        logging.info(self.tokenizer.decode(inputs['input_ids'][0], skip_special_tokens=True))
+        logging.info(self.tokenizer.decode(inputs['labels'][0], skip_special_tokens=True))
 
         with torch.no_grad():
 
             if self.args.predict_with_generate and not self.args.prediction_loss_only:
                 num_return_sequences = self.data_args.eval_beams if self.data_args.do_sample else None
                 expert_prompt = self.data_args.expert_prompt if hasattr(self.data_args, 'expert_prompt') else None
-                logging.info('')
+
                 generated_tokens = model.generate(
                     # Text Input!
                     input_ids=inputs["input_ids"],
