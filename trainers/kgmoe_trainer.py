@@ -337,6 +337,20 @@ class KGMoESeq2SeqTrainer(Seq2SeqTrainer):
             # logging.info('input_ids and labels')
             # logging.info(self.tokenizer.decode(inputs['input_ids'][0], skip_special_tokens=True))
             # logging.info(self.tokenizer.decode(inputs['labels'][0], skip_special_tokens=True))
+            # 2023-06-02 23:48:27 INFO - kgmoe_trainer.py - input_ids and labels
+            # 2023-06-02 23:48:27 INFO - kgmoe_trainer.py -  he put elephant into the jug.
+            # 2023-06-02 23:48:27 INFO - kgmoe_trainer.py -  a jug is so small than an elephant.      An elephant won't fit into a jug - they are too big.    The jug would break under the weight.
+            # 2023-06-02 23:48:31 INFO - kgmoe_trainer.py - input_ids and labels
+            # 2023-06-02 23:48:31 INFO - kgmoe_trainer.py -  I ate grilled and peppered red Stone for dinner yesterday.
+            # 2023-06-02 23:48:31 INFO - kgmoe_trainer.py -  Stone iscannot no food and cannot be eaten.      red stone will break your teeth no matter how well grilled.     You cannot eat stone.
+            # 2023-06-02 23:48:33 INFO - kgmoe_trainer.py - input_ids and labels
+            # 2023-06-02 23:48:33 INFO - kgmoe_trainer.py -  He felt pain in teeth, so he went to police station. 2023-06-02 23:48:33 INFO - kgmoe_trainer.py -  Hospital has dentist, who can cure teeth pain.   Police can not help you with your teeth.        the police station does not have dentists.
+            # 2023-06-02 23:48:36 INFO - kgmoe_trainer.py - input_ids and labels
+            # 2023-06-02 23:48:36 INFO - kgmoe_trainer.py -  The mother fries stones for her children in the morning.
+            # 2023-06-02 23:48:36 INFO - kgmoe_trainer.py -  The mother should know that stones can't be eaten. no one eat stones.      stones aren't food.
+            # 2023-06-02 23:48:39 INFO - kgmoe_trainer.py - input_ids and labels
+            # 2023-06-02 23:48:39 INFO - kgmoe_trainer.py -  The man thought the task was too spicy.
+            # 2023-06-02 23:48:39 INFO - kgmoe_trainer.py -  A task is a concept and has no flavor.   Tasks has no taste spicy or otherwise unless the task is to eat food.   Tasks are done and not tasted.
             lm_logits, lm_labels = self.prediction_step(model, inputs, prediction_loss_only)
             batch_size = inputs[list(inputs.keys())[0]].shape[0]
             if lm_logits is not None:
