@@ -257,7 +257,7 @@ class KGMoESeq2SeqTrainer(Seq2SeqTrainer):
                 logger.info(self.tokenizer.decode(inputs["input_ids"][0], skip_special_tokens=True))
                 logger.info(self.tokenizer.decode(inputs["concept_ids"][0], skip_special_tokens=True))
                 logger.info(self.tokenizer.decode(inputs["relation_ids"][0], skip_special_tokens=True))
-                logger.info(self.tokenizer.decode(inputs["triple_labels"][0], skip_special_tokens=True))
+                # logger.info(self.tokenizer.decode(inputs["triple_labels"][0], skip_special_tokens=True))
 
                 generated_tokens = model.generate(
                     # Text Input!
