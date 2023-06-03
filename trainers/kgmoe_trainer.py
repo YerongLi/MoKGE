@@ -254,6 +254,7 @@ class KGMoESeq2SeqTrainer(Seq2SeqTrainer):
                 num_return_sequences = self.data_args.eval_beams if self.data_args.do_sample else None
                 expert_prompt = self.data_args.expert_prompt if hasattr(self.data_args, 'expert_prompt') else None
                 logger.info("iput_ids")
+                logger.info(inputs["input_ids"].shape)
                 logger.info(self.tokenizer.decode(inputs["input_ids"][0], skip_special_tokens=True))
                 logger.info(self.tokenizer.decode(inputs["concept_ids"][0], skip_special_tokens=True))
                 logger.info(self.tokenizer.decode(inputs["relation_ids"][0], skip_special_tokens=True))
