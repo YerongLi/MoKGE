@@ -465,7 +465,7 @@ class Seq2SeqTrainer(Trainer):
                 preds = logits if preds is None else nested_concat(preds, logits, dim=0)
             if labels is not None:
                 label_ids = labels if label_ids is None else nested_concat(label_ids, labels, dim=0)
-        logging.info('DEBUG')
+        logging.info('DEBUG===========')
         if self.args.past_index and hasattr(self, "_past"):
             # Clean the state at the end of the evaluation loop
             delattr(self, "_past")
