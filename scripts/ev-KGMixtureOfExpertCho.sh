@@ -44,10 +44,10 @@ option="
     --model_name_or_path facebook/bart-base  
     --model_type kgmoe
     --output_dir ${OUTPUT_DIR}/KGMixtureOfExpertCho_Output
-    --max_source_length 40
-    --max_target_length 60 
-    --val_max_target_length 60
-    --test_max_target_length 60
+    --max_source_length 43
+    --max_target_length 63
+    --val_max_target_length 63
+    --test_max_target_length 63
     --num_train_epochs 3
     --learning_rate 3e-5 
     --mixture_embedding
