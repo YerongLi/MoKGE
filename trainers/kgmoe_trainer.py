@@ -244,9 +244,7 @@ class KGMoESeq2SeqTrainer(Seq2SeqTrainer):
         self, model: nn.Module, inputs: Dict[str, Union[torch.Tensor, Any]], prediction_loss_only: bool
     ) -> Tuple[Optional[float], Optional[torch.Tensor], Optional[torch.Tensor]]:
         inputs = self._prepare_inputs(inputs)
-        logging.info('input_ids and labels')
-        logging.info(self.tokenizer.decode(inputs['input_ids'][0], skip_special_tokens=True))
-        logging.info(self.tokenizer.decode(inputs['labels'][0], skip_special_tokens=True))
+
 
         with torch.no_grad():
 
@@ -335,6 +333,9 @@ class KGMoESeq2SeqTrainer(Seq2SeqTrainer):
         disable_tqdm = not self.is_local_process_zero() or self.args.disable_tqdm
         ''' eval all datas in the dev set '''
         for inputs in tqdm(dataloader, desc=description, disable=disable_tqdm):
+            logging.info('input_ids and labels')
+            logging.info(self.tokenizer.decode(inputs['input_ids'][0], skip_special_tokens=True))
+            logging.info(self.tokenizer.decode(inputs['labels'][0], skip_special_tokens=True))
             lm_logits, lm_labels = self.prediction_step(model, inputs, prediction_loss_only)
             batch_size = inputs[list(inputs.keys())[0]].shape[0]
             if lm_logits is not None:
