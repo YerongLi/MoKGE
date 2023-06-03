@@ -415,7 +415,7 @@ class Seq2SeqTrainer(Trainer):
             self._rotate_checkpoints(use_mtime=True)
 
     def evaluate(self, eval_dataset: Optional[Dataset] = None) -> Dict[str, float]:
-
+        logging.info('Entering evaluation')
         eval_dataloader = self.get_eval_dataloader(eval_dataset)
         output = self.prediction_loop(eval_dataloader, description="Evaluation")
         logging.info("metrics")
