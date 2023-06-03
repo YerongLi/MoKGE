@@ -320,6 +320,7 @@ class KGMoESeq2SeqTrainer(Seq2SeqTrainer):
         # inside a DistributedDataParallel as we'll be under `no_grad` anyways.
 
         batch_size = dataloader.batch_size
+        logger.info('Entering kgmoe_trainer.py prediction_loop')
         logger.info("***** Running %s *****", description)
         logger.info("  Num examples = %d", self.num_examples(dataloader))
         logger.info("  Batch size = %d", batch_size)
@@ -333,9 +334,9 @@ class KGMoESeq2SeqTrainer(Seq2SeqTrainer):
         disable_tqdm = not self.is_local_process_zero() or self.args.disable_tqdm
         ''' eval all datas in the dev set '''
         for inputs in tqdm(dataloader, desc=description, disable=disable_tqdm):
-            logging.info('input_ids and labels')
-            logging.info(self.tokenizer.decode(inputs['input_ids'][0], skip_special_tokens=True))
-            logging.info(self.tokenizer.decode(inputs['labels'][0], skip_special_tokens=True))
+            # logging.info('input_ids and labels')
+            # logging.info(self.tokenizer.decode(inputs['input_ids'][0], skip_special_tokens=True))
+            # logging.info(self.tokenizer.decode(inputs['labels'][0], skip_special_tokens=True))
             lm_logits, lm_labels = self.prediction_step(model, inputs, prediction_loss_only)
             batch_size = inputs[list(inputs.keys())[0]].shape[0]
             if lm_logits is not None:
